@@ -9,29 +9,31 @@ namespace Core\Http;
  */
 class Session
 {
-	private array   $flash         = [];
+	/**
+	 * hold flash session keys
+	 *
+	 * @var array
+	 */
+	private array   $flash = [];
+
+	/**
+	 * check clear old flash
+	 *
+	 * @var bool
+	 */
 	private bool    $clearOldFlash = false;
 
+	/**
+	 * Session constructor.
+	 */
 	public function __construct()
 	{
 		if ( ! session_id() ) {
 			ini_set( 'session.use_only_cookies', 1 );
 			session_start();
 		}
-		$this->clearOldFlash();
-	}
 
-	/**
-	 * Session start
-	 *
-	 * @return void
-	 */
-	public function start() : void
-	{
-		if ( ! session_id() ) {
-			ini_set( 'session.use_only_cookies', 1 );
-			session_start();
-		}
+		$this->clearOldFlash();
 	}
 
 	/**
@@ -117,7 +119,15 @@ class Session
 		}
 	}
 
-	public function flash( string $key, $value )
+	/**
+	 * set flash session
+	 *
+	 * @param string $key
+	 * @param $value
+	 *
+	 * @return void
+	 */
+	public function flash( string $key, $value ) : void
 	{
 		$this->set( $key, $value );
 
@@ -127,7 +137,11 @@ class Session
 		$this->set( 'flash', $flash );
 	}
 
-	private function clearOldFlash()
+	/**
+	 * clear old flash from session
+	 * @return void
+	 */
+	private function clearOldFlash() : void
 	{
 		if ( $this->clearOldFlash === true ) return;
 
@@ -144,6 +158,11 @@ class Session
 		$this->clearOldFlash = true;
 	}
 
+	/**
+	 * Input set on session flash
+	 *
+	 * @param array $input
+	 */
 	public function flashInput( array $input ) : void
 	{
 		foreach ( $input as $name => $value ) {

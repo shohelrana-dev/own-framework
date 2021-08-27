@@ -6,18 +6,45 @@ use Core\Support\ErrorBag;
 
 class Redirect
 {
+	/**
+	 * hold session class instance
+	 *
+	 * @var Session
+	 */
 	private Session $session;
+
+	/**
+	 * hold Request class instance
+	 *
+	 * @var Request
+	 */
 	private Request $request;
 
+	/**
+	 * @var string
+	 */
 	private string  $redirectUrl = '';
-	private bool    $isBack      = false;
+	/**
+	 * @var bool
+	 */
+	private bool    $isBack = false;
 
+	/**
+	 * Redirect constructor.
+	 */
 	public function __construct()
 	{
 		$this->session = app()->session();
 		$this->request = app()->request();
 	}
 
+	/**
+	 * Redirect to url
+	 *
+	 * @param string $url
+	 *
+	 * @return $this
+	 */
 	public function to( string $url = '' )
 	{
 		$this->redirectUrl = $url;
@@ -25,6 +52,9 @@ class Redirect
 		return $this;
 	}
 
+	/**
+	 * Redirect destruct.
+	 */
 	public function __destruct()
 	{
 		if ( empty( $this->redirectUrl ) && $this->isBack ) {
@@ -36,21 +66,41 @@ class Redirect
 		die;
 	}
 
-	public function back()
+	/**
+	 * Redirect previous url
+	 *
+	 * @return $this
+	 */
+	public function back() : Redirect
 	{
 		$this->isBack = true;
 
 		return $this;
 	}
 
-	public function with( $key, $value )
+	/**
+	 * Redirect with flash session
+	 *
+	 * @param $key
+	 * @param $value
+	 *
+	 * @return $this
+	 */
+	public function with( $key, $value ) : Redirect
 	{
 		$this->session->flash( $key, $value );
 
 		return $this;
 	}
 
-	public function withErrors( array $errors = [] )
+	/**
+	 * Redirect with errors
+	 *
+	 * @param array $errors
+	 *
+	 * @return $this
+	 */
+	public function withErrors( array $errors = [] ) : Redirect
 	{
 		$errorBag = ErrorBag::getInstance();
 
@@ -63,7 +113,14 @@ class Redirect
 		return $this;
 	}
 
-	public function withInput( array $input = null )
+	/**
+	 * Redirect input value
+	 *
+	 * @param array|null $input
+	 *
+	 * @return $this
+	 */
+	public function withInput( array $input = null ) : Redirect
 	{
 		if ( is_null( $input ) ) {
 			$this->session->flashInput( $this->request->all() );

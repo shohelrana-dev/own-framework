@@ -2,9 +2,10 @@
 
 namespace Core\Traits;
 
-trait Singleton {
+trait Singleton
+{
 	/**
-	 * put classes instance
+	 * put classes instances
 	 *
 	 * @var array
 	 */
@@ -15,13 +16,14 @@ trait Singleton {
 	 *
 	 * @return object
 	 */
-	final static function getInstance () {
-		$called_class = get_called_class();
+	final static function getInstance()
+	{
+		$calledClass = get_called_class();
 
-		if ( ! isset( static::$instance[ $called_class ] ) ) {
-			static::$instance[ $called_class ] = new $called_class;
+		if ( ! isset( static::$instance[ $calledClass ] ) ) {
+			static::$instance[ $calledClass ] = new $calledClass;
 		}
 
-		return static::$instance[ $called_class ];
+		return static::$instance[ $calledClass ];
 	}
 }

@@ -15,16 +15,33 @@ use Core\Validation\Rules\RuleInterface;
 class Validator
 {
 
+	/**
+	 * @var ErrorBag|object
+	 */
 	private ErrorBag $errors;
+
+	/**
+	 * hold rule classes
+	 *
+	 * @var array
+	 */
 	private array    $rules = [];
 
+	/**
+	 * Validator constructor.
+	 */
 	public function __construct()
 	{
 		$this->errors = ErrorBag::getInstance();
 		$this->defaultRules();
 	}
 
-	private function defaultRules()
+	/**
+	 * load default rules
+	 *
+	 * @return void
+	 */
+	private function defaultRules() : void
 	{
 		$this->rules['required'] = Required::class;
 		$this->rules['email']    = Email::class;
@@ -88,16 +105,31 @@ class Validator
 		return ! $this->errors->any();
 	}
 
+	/**
+	 * Check is validation failed
+	 *
+	 * @return bool
+	 */
 	public function isFailed()
 	{
 		return $this->errors->any();
 	}
 
+	/**
+	 * Check is validation success
+	 *
+	 * @return bool
+	 */
 	public function isSuccess()
 	{
 		return ! $this->errors->any();
 	}
 
+	/**
+	 * get ErrorBag object with errors
+	 *
+	 * @return ErrorBag
+	 */
 	public function errors() : ErrorBag
 	{
 		return $this->errors;

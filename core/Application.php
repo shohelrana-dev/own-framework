@@ -46,8 +46,6 @@ final class Application
 		$this->response = new Response();
 		$this->session  = new Session();
 
-		$this->session()->start();
-
 		$this->route = new Route( $this->request, $this->response );
 	}
 
