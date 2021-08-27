@@ -1,0 +1,28 @@
+{
+  "name": "shohelrana/own-framework",
+  "description": "Own php framework",
+  "authors": [
+    {
+      "name": "Shohel Rana",
+      "email": "shohelrrrana@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "7.4.3",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "illuminate/database": "^8.55",
+    "phpmailer/phpmailer": "^6.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Core\\": "core/"
+    },
+    "files": [
+      "config/config.php",
+      "core/helpers.php"
+    ]
+  }
+}
