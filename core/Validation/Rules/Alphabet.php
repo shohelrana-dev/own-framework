@@ -8,7 +8,7 @@ class Alphabet implements RuleInterface
 
 	public function validate( string $field, string $value, $args = [] ) : bool
 	{
-		return preg_match( '~^([a-zA-Z])+$~', $value );
+		return preg_match( '~^([a-zA-Z\s])+$~', $value );
 	}
 
 	public function message() : string

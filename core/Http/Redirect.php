@@ -34,8 +34,8 @@ class Redirect
 	 */
 	public function __construct()
 	{
-		$this->session = app()->session();
-		$this->request = app()->request();
+		$this->session = app()->session;
+		$this->request = app()->request;
 	}
 
 	/**

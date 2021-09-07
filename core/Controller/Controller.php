@@ -37,7 +37,7 @@ abstract class Controller
 
 	private function templateVars()
 	{
-		$errors   = app()->session()->get( 'errors' );
+		$errors   = app()->session->get( 'errors' );
 		$errorBag = $errors ? $errors : new ErrorBag();
 
 		return [

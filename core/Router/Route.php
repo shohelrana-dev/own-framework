@@ -135,11 +135,11 @@ class Route
 					$controller = new $callback[0]();
 					$action     = $callback[1];
 
-					app()->setController( $controller );
+					app()->controller = $controller;
 
 					$controller->action = $action;
 
-					foreach ( app()->controller()->getMiddlewares() as $middleware ) {
+					foreach ( app()->controller->getMiddlewares() as $middleware ) {
 						$middleware->execute();
 					}
 

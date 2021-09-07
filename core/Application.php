@@ -7,16 +7,25 @@ use Core\Http\Request;
 use Core\Http\Response;
 use Core\Http\Session;
 use Core\Router\Route;
-use Core\Traits\SingletonClasses;
 
 /**
  * The main class of framework
+ *
+ * @property Request $request
+ * @property Response $response
+ * @property Session $session
+ * @property Route $route
  *
  * @package Core\Bootstrap
  */
 final class Application
 {
-	use SingletonClasses;
+	/**
+	 * Hold class objects
+	 *
+	 * @var array
+	 */
+	private array $container = [];
 
 	/**
 	 * Put instance of the class
@@ -26,27 +35,44 @@ final class Application
 	public static Application $app;
 
 	/**
-	 * Put instance of Route class
-	 *
-	 * @var Route $route
-	 */
-	private Route $route;
-
-	/**
 	 * Application constructor.
 	 */
 	public function __construct()
 	{
-		$this->checkDebugMode();
-		$this->defineConstants();
+		$this->debugMode();
+		$this->constants();
 
 		self::$app = $this;
 
-		$this->request  = new Request();
-		$this->response = new Response();
-		$this->session  = new Session();
+		$this->container['request']  = new Request();
+		$this->container['response'] = new Response();
+		$this->container['session']  = new Session();
+		$this->container['route']    = new Route( $this->request, $this->response );
+	}
 
-		$this->route = new Route( $this->request, $this->response );
+	/**
+	 * Magic method to set property
+	 *
+	 * @param $name
+	 *
+	 * @param $value
+	 */
+	public function __set( $name, $value )
+	{
+		$this->container[ $name ] = $value;
+	}
+
+	/**
+	 *  Magic method to get property
+	 *
+	 * @param $name
+	 * @return mixed
+	 */
+	public function __get( $name )
+	{
+		if ( array_key_exists( $name, $this->container ) ) {
+			return $this->container[ $name ];
+		}
 	}
 
 	/**
@@ -54,7 +80,7 @@ final class Application
 	 *
 	 * @return void
 	 */
-	public function checkDebugMode() : void
+	public function debugMode() : void
 	{
 		if ( defined( 'DEBUG' ) && DEBUG === true ) {
 			ini_set( 'display_errors', 1 );
@@ -73,7 +99,7 @@ final class Application
 	 *
 	 * @return void
 	 */
-	private function defineConstants() : void
+	private function constants() : void
 	{
 		define( 'DS', DIRECTORY_SEPARATOR );
 		define( 'ROOT_PATH', realpath( dirname( __DIR__ ) ) );
@@ -177,7 +203,7 @@ final class Application
 	 */
 	public function isAuth() : bool
 	{
-		if ( $this->session()->has( 'user_logged_in' ) ) {
+		if ( $this->session->has( 'user_logged_in' ) ) {
 			return true;
 		}
 		return false;
@@ -190,7 +216,7 @@ final class Application
 	 */
 	public function isGuest() : bool
 	{
-		if ( $this->session()->has( 'user_logged_in' ) ) {
+		if ( $this->session->has( 'user_logged_in' ) ) {
 			return false;
 		}
 		return true;
@@ -206,10 +232,10 @@ final class Application
 	 */
 	public function login( int $userId, string $userName ) : bool
 	{
-		if ( ! session_has( 'user_logged_in' ) || session_has( 'logged_in_user_id' ) ) {
-			session( 'user_logged_in', true );
-			session( 'logged_in_user_id', $userId );
-			session( 'logged_in_user_name', $userName );
+		if ( ! $this->session->has( 'user_logged_in' ) || $this->session->has( 'logged_in_user_id' ) ) {
+			$this->session->set( 'user_logged_in', true );
+			$this->session->set( 'logged_in_user_id', $userId );
+			$this->session->set( 'logged_in_user_name', $userName );
 		}
 		return true;
 	}
@@ -221,9 +247,9 @@ final class Application
 	 */
 	public function logout() : bool
 	{
-		if ( $this->session()->has( 'user_logged_in' ) ) {
-			$this->session()->remove( 'user_logged_in' );
-			$this->session()->destroy();
+		if ( $this->session->has( 'user_logged_in' ) ) {
+			$this->session->remove( 'user_logged_in' );
+			$this->session->destroy();
 		}
 
 		return $this->isGuest();

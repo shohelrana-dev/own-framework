@@ -32,7 +32,7 @@ function app()
  */
 function redirect( string $path = '' )
 {
-	return app()->response()->redirect( $path );
+	return app()->response->redirect( $path );
 }
 
 /**
@@ -44,7 +44,7 @@ function redirect( string $path = '' )
  */
 function old( string $name )
 {
-	return app()->session()->get( 'old_input_' . $name );
+	return app()->session->get( 'old_input_' . $name );
 }
 
 /**
@@ -58,13 +58,13 @@ function old( string $name )
 function session( string $key = null, string $value = null )
 {
 	if ( is_null( $key ) && is_null( $value ) ) {
-		return app()->session();
+		return app()->session;
 	}
 	elseif ( ! is_null( $key ) && is_null( $value ) ) {
-		return app()->session()->get( $key );
+		return app()->session->get( $key );
 	}
 	elseif ( ! is_null( $key ) && ! is_null( $value ) ) {
-		app()->session()->set( $key, $value );
+		app()->session->set( $key, $value );
 	}
 }
 
@@ -78,7 +78,7 @@ function session( string $key = null, string $value = null )
  */
 function session_flash( string $key, $value ) : void
 {
-	app()->session()->flash( $key, $value );
+	app()->session->flash( $key, $value );
 }
 
 /**
@@ -90,7 +90,7 @@ function session_flash( string $key, $value ) : void
  */
 function session_has( string $key ) : bool
 {
-	return app()->session()->has( $key );
+	return app()->session->has( $key );
 }
 
 /**
