@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Core\Http;
 
 /**
@@ -32,7 +31,7 @@ class Request
 	 */
 	public function path() : string
 	{
-		return $_SERVER['PHP_SELF'] ?? '/';
+		return $_SERVER['REQUEST_URI'] ?? '/';
 	}
 
 	/**

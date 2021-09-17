@@ -88,8 +88,8 @@ class AuthController extends Controller
 			if ( $user->save() ) {
 				$subject = 'Email Verification';
 				$body    = sprintf( "Hi Mr/Ms %s<br>", $name );
-				$body    .= sprintf( "Thank you to join our website %s<br>", route() );
-				$body    .= sprintf( 'Please Verify your email <a href="%s/auth/email-verify/%s"><strong>Click Here</strong></a><br>', route(), $email_verification_token );
+				$body    .= sprintf( "Thank you to join our website %s<br>", root_url() );
+				$body    .= sprintf( 'Please Verify your email <a href="%s/auth/email-verify/%s"><strong>Click Here</strong></a><br>', root_url(), $email_verification_token );
 				$body    .= 'Thank you.';
 
 				$mail = new PHPMailer( true );

@@ -12,7 +12,7 @@
     <div class="container" style="max-width: 700px">
         <div class="d-flex justify-content-between my-3">
             <h5>Please signup bellow</h5>
-            <a class="btn btn-primary" href="/auth/login">Login</a>
+            <a class="btn btn-primary" href="<?php echo url( '/auth/login' ); ?>">Login</a>
         </div>
 
 		<?php if ( session_has( 'error_msg' ) ): ?>

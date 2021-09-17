@@ -11,10 +11,17 @@ use Core\Router\Route;
 /**
  * The main class of framework
  *
+ * Put classes objects
  * @property Request $request
  * @property Response $response
  * @property Session $session
  * @property Route $route
+ *
+ * Register route methods
+ * @method get( $path, $callback )
+ * @method post( $path, $callback )
+ * @method put( $path, $callback )
+ * @method delete( $path, $callback )
  *
  * @package Core\Bootstrap
  */
@@ -76,6 +83,45 @@ final class Application
 	}
 
 	/**
+	 * Register route methods
+	 *
+	 * @param $name
+	 * @param $arguments
+	 *
+	 * @return $this
+	 */
+	public function __call( $name, $arguments )
+	{
+		$path     = isset( $arguments[0] ) ? $arguments[0] : '';
+		$callback = isset( $arguments[1] ) ? $arguments[1] : '';
+
+		if ( empty( $path ) || empty( $callback ) ) {
+			die( "Route method {$name} called incorrectly!" );
+		}
+
+		switch ( $name ) {
+			case 'get':
+				$this->route->addRoute( $this->request::METHOD_GET, $path, $callback );
+				break;
+
+			case 'post':
+				$this->route->addRoute( $this->request::METHOD_POST, $path, $callback );
+				break;
+
+			case 'put':
+				$this->route->addRoute( $this->request::METHOD_PUT, $path, $callback );
+				break;
+
+			case 'delete':
+				$this->route->addRoute( $this->request::METHOD_DELETE, $path, $callback );
+				break;
+
+			default:
+				return $this;
+		}
+	}
+
+	/**
 	 * Check the application debug mode
 	 *
 	 * @return void
@@ -104,82 +150,6 @@ final class Application
 		define( 'DS', DIRECTORY_SEPARATOR );
 		define( 'ROOT_PATH', realpath( dirname( __DIR__ ) ) );
 		define( 'VIEW_PATH', ROOT_PATH . DS . 'app' . DS . 'views' );
-	}
-
-
-	/**
-	 * Register get method to route
-	 *
-	 * @param $path
-	 * @param $callback
-	 *
-	 * @return Application
-	 */
-	public function get( $path, $callback ) : Application
-	{
-		$this->route->addRoute( $this->request::METHOD_GET, $path, $callback );
-
-		return $this;
-	}
-
-	/**
-	 * Register post method to route
-	 *
-	 * @param $path
-	 * @param $callback
-	 *
-	 * @return Application
-	 */
-	public function post( $path, $callback ) : Application
-	{
-		$this->route->addRoute( $this->request::METHOD_POST, $path, $callback );
-
-		return $this;
-	}
-
-	/**
-	 * Register put method to route
-	 *
-	 * @param $path
-	 * @param $callback
-	 *
-	 * @return Application
-	 */
-	public function put( $path, $callback ) : Application
-	{
-		$this->route->addRoute( $this->request::METHOD_PUT, $path, $callback );
-
-		return $this;
-	}
-
-	/**
-	 * Register patch method to route
-	 *
-	 * @param $path
-	 * @param $callback
-	 *
-	 * @return Application
-	 */
-	public function patch( $path, $callback ) : Application
-	{
-		$this->route->addRoute( $this->request::METHOD_PATCH, $path, $callback );
-
-		return $this;
-	}
-
-	/**
-	 * Register delete method to route
-	 *
-	 * @param $path
-	 * @param $callback
-	 *
-	 * @return Application
-	 */
-	public function delete( $path, $callback ) : Application
-	{
-		$this->route->addRoute( $this->request::METHOD_DELETE, $path, $callback );
-
-		return $this;
 	}
 
 	/**

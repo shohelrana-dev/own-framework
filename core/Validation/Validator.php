@@ -83,16 +83,16 @@ class Validator
 				}
 
 				/**
-				 * @var RuleInterface $ruleInstance
+				 * @var RuleInterface $ruleObject
 				 */
 				if ( isset( $this->rules[ $userRule ] ) ) {
 					$ruleClass    = $this->rules[ $userRule ];
-					$ruleInstance = new $ruleClass();
+					$ruleObject = new $ruleClass();
 
-					$validate = $ruleInstance->validate( $field, $value, $params );
+					$validate = $ruleObject->validate( $field, $value, $params );
 
 					if ( ! $validate ) {
-						$ruleMessage = str_replace( '{field}', ucfirst( $field ), $ruleInstance->message() );
+						$ruleMessage = str_replace( '{field}', ucfirst( $field ), $ruleObject->message() );
 						$this->errors->addError( $field, $ruleMessage );
 					}
 				}
