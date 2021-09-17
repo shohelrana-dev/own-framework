@@ -33,9 +33,7 @@
                             <label for="content">Content</label>
                             <textarea name="content"
                                       class="form-control"
-                                      id="content">
-                                <?php echo $todo->content ?>
-                            </textarea>
+                                      id="content"><?php echo $todo->content ?></textarea>
 							<?php if ( $errors->has( 'content' ) ): ?>
                                 <p class="error text-danger"><?php echo $errors->get( 'content' ) ?></p>
 							<?php endif; ?>
