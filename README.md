@@ -4,7 +4,9 @@
 #NOT READY FOR PRODUCTION
 ### Installation
 Download the archive or clone the project using git
-Setup database config from **config/config.php**
+
+Rename **.env.example** file to **.env** and
+**setup** database configuration from **.env** file.
 
 **Run** composer install
 
