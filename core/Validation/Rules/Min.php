@@ -8,7 +8,7 @@ class Min implements RuleInterface
 
 	public function validate( string $field, string $value, $args = [] ) : bool
 	{
-		if ( strlen( $value ) > $args['min'] ) {
+		if ( strlen( $value ) >= $args['min'] ) {
 			return true;
 		}
 		$this->message = str_replace( '{min}', $args['min'], $this->message );

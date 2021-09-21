@@ -136,7 +136,7 @@ final class Application
 	 */
 	public function debugMode() : void
 	{
-		if ( defined( 'DEBUG' ) && DEBUG === true ) {
+		if ( isset($_ENV['APP_DEBUG']) && $_ENV['APP_DEBUG'] === true ) {
 			ini_set( 'display_errors', 1 );
 			ini_set( 'display_startup_errors', 1 );
 			error_reporting( E_ALL );

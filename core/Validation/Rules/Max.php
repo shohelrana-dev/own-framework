@@ -8,7 +8,7 @@ class Max implements RuleInterface
 
 	public function validate( string $field, string $value, $args = [] ) : bool
 	{
-		if ( strlen( $value ) < $args['max'] ) {
+		if ( strlen( $value ) <= $args['max'] ) {
 			return true;
 		}
 		$this->message = str_replace( '{max}', $args['max'], $this->message );
