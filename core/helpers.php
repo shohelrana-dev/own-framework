@@ -102,7 +102,7 @@ function session_has( string $key ) : bool
  */
 function url( string $path = '/' ) : string
 {
-	return ROOT_URL . $path;
+	return root_url() . $path;
 }
 
 /**
@@ -112,7 +112,7 @@ function url( string $path = '/' ) : string
  */
 function root_url() : string
 {
-	return ROOT_URL;
+	return isset( $_ENV['APP_URL'] ) ? $_ENV['APP_URL'] : '';
 }
 
 /**
@@ -125,9 +125,9 @@ function root_url() : string
 function asset( string $path = '' ) : string
 {
 	if ( empty( $path ) ) {
-		return ROOT_URL . '/assets';
+		return root_url() . '/assets';
 	}
-	return ROOT_URL . '/assets' . $path;
+	return root_url() . '/assets' . $path;
 }
 
 /**

@@ -7,6 +7,7 @@ use Core\Http\Request;
 use Core\Http\Response;
 use Core\Http\Session;
 use Core\Router\Route;
+use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * The main class of framework
@@ -48,6 +49,7 @@ final class Application
 	{
 		$this->debugMode();
 		$this->constants();
+		$this->setupDotenv();
 
 		self::$app = $this;
 
@@ -55,6 +57,12 @@ final class Application
 		$this->container['response'] = new Response();
 		$this->container['session']  = new Session();
 		$this->container['route']    = new Route( $this->request, $this->response );
+	}
+
+	public function setupDotenv(  )
+	{
+		$dotenv = new Dotenv();
+		$dotenv->load(ROOT_PATH . DS . '.env');
 	}
 
 	/**

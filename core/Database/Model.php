@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
  *
  * @package Core\Database
  */
-class Model extends BaseModel {
+class Model extends BaseModel
+{
 	protected $schema;
 
-	public function __construct() {
+	public function __construct()
+	{
 		$this->connect();
 	}
 
@@ -22,14 +24,21 @@ class Model extends BaseModel {
 	 *
 	 * @return void
 	 */
-	private function connect() : void {
+	private function connect() : void
+	{
+		$connection = isset( $_ENV['DB_CONNECTION'] ) ? $_ENV['DB_CONNECTION'] : '';
+		$host       = isset( $_ENV['DB_HOST'] ) ? $_ENV['DB_HOST'] : '';
+		$database   = isset( $_ENV['DB_DATABASE'] ) ? $_ENV['DB_DATABASE'] : '';
+		$username   = isset( $_ENV['DB_USERNAME'] ) ? $_ENV['DB_USERNAME'] : '';
+		$password   = isset( $_ENV['DB_PASSWORD'] ) ? $_ENV['DB_PASSWORD'] : '';
+
 		$capsule = new Capsule();
 		$capsule->addConnection( [
-			'driver'    => DB_DRIVER,
-			'host'      => DB_HOSTNAME,
-			'database'  => DB_NAME,
-			'username'  => DB_USERNAME,
-			'password'  => DB_PASSWORD,
+			'driver'    => $connection,
+			'host'      => $host,
+			'database'  => $database,
+			'username'  => $username,
+			'password'  => $password,
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -40,7 +49,8 @@ class Model extends BaseModel {
 
 	}
 
-	protected function schema() {
+	protected function schema()
+	{
 		return Capsule::schema();
 	}
 }
